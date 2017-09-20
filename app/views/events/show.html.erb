@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h3><%= @event.title %></h3>
+    <%= link_to "Back", root_path %>
+    <br/><br/>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="border">
+      <p><%= @event.description %></p>
+
+      <p>Start: <%= @event.start %></p>
+
+      <p>End: <%= @event.end %></p>
+    </div>
+
+
+    <div class="border">
+      <h4>Comments</h4>
+      <%= render 'comments/list' %>
+
+      <h4>New comment</h4>
+      <%= render 'comments/form' %>
+    </div>
+  </div>
+
+
+  <div class="col-lg-6">
+    <div class="border">
+      <h4>Attending</h4>
+      <% @participants.each do |participant| %>
+      <p>
+        <%= participant.user.name %>
+        <%= link_to 'Delete', [participant.event, participant],
+                   method: :delete, data: { confirm: 'Are you sure?' } %>
+      </p>
+      <% end %>
+
+      <h4>Add people!</h4>
+      <%= form_for([@event, @event.participants.build]) do |f| %>
+      <p>
+        <%= select("user", "userid", @users.collect {|u| [ u.name, u.id ] }) %>
+      </p>
+
+      <p>
+        <%= f.submit 'Join' %>
+      </p>
+      <% end %>
+
+    </div>
+  </div>
+</div>

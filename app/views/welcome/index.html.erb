@@ -1,0 +1,73 @@
+<script type="text/javascript">
+  function search() {
+    text=document.getElementById('searchfield').value;
+
+    var eventList = [];
+    var filteredList = [];
+    var resultHTML = [];
+    $.getJSON("/events/", function( data ) {
+      // get events json
+      $.each( data.events, function( key, val ) {
+        eventList.push(data.events[key]);
+      });
+    }).done(function() {
+      // filter events text
+      eventList.forEach(function(event) {
+        if(event.title.toLowerCase().indexOf(text.toLowerCase())>=0){
+          filteredList.push(event);
+        }
+      });
+
+      if(text == '') {
+        filteredList = eventList;
+      }
+
+      // construct result html
+      filteredList.forEach(function(event) {
+        resultHTML.push(
+          "<div class='border'><b><p>"+
+          event.title+
+          "</p></b><p>"+
+          event.description+
+          "</p><p><a href='"+
+          event.link+
+          "'>Show</a> <a href='"+
+          event.link+"/edit"+
+          "'>Edit</a> "+
+          "<a data-confirm='Are you sure?' data-method='delete' href='"+
+          event.link+
+          "' rel='nofollow'>Delete</a>"+
+          "</div>"
+        );
+      });
+
+      document.getElementById('results').innerHTML = resultHTML.join('');
+    });
+  }
+</script>
+
+<div class="row">
+<div class="col-lg-12">
+<h1>Eventmaker</h1>
+</div>
+</div>
+
+<div class="row">
+<div class="col-lg-6">
+<h3>Events</h3>
+<%= link_to 'New event', new_event_path %><br/><br/>
+<input type="text" name="searchfiled" id="searchfield"><button onClick="search();">Search</button>
+<br/><br/>
+<div id="results">
+<%= render @events %>
+</div>
+</div>
+
+<div class="col-lg-6">
+<h3>Users</h3>
+<%= link_to 'New user', new_user_path %><br/><br/>
+<div class="border">
+  <%= render @users %>
+</div>
+</div>
+</div>

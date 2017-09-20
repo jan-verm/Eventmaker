@@ -1,0 +1,31 @@
+<h3>Edit post</h3>
+
+<%= form_for :comment, url: event_comment_path(@event, @comment), method: :patch do |f| %>
+  <% if @comment.errors.any? %>
+  <div id="error_explanation">
+    <h4><%= pluralize(@comment.errors.count, "error") %> prohibited
+      this post from being saved:</h4>
+    <ul>
+    <% @comment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <p>
+    <b>User:</b><br/>
+    <%= @comment.user.name %><br />
+  </p>
+  <p>
+    <%= f.label :text %><br />
+    <%= f.text_area :text %>
+  </p>
+  <p>
+    <b>Date: </b><br />
+    <%= @comment.date %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

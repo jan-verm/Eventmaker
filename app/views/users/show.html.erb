@@ -1,0 +1,17 @@
+<h3><%= @user.name %></h3>
+<%= link_to "Back", root_path %>
+<br/><br/>
+
+<div class="border">
+<p>E-mail: <%= @user.email %></p>
+
+<p>Date of birth: <%= @user.birth_date %></p>
+
+<h4>Attending</h4>
+<% @participants.each do |participant| %>
+<p>
+  <%= link_to participant.event.title, event_path(participant.event) %>
+</p>
+<% end %>
+</div>
+

@@ -1,0 +1,9 @@
+<div class="border">
+    <p><b><%= event.title %></b></p>
+    <p><%= event.description %></p>
+    <p>
+      <%= link_to 'Show', event %>
+      <%= link_to 'Edit', edit_event_path(event) %>
+      <%= link_to 'Delete', event_path(event), method: :delete, data: {confirm: 'Are you sure?'} %>
+    </p>
+</div>
